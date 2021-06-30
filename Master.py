@@ -37,9 +37,9 @@ shutil.copy("RNN.py", directory)
 
 #MIH: if the run is a new run, it trains the network
 if new_run:
-    FitRNetwork(directory) 
+    FitRNetwork(directory)  #training
 else:
     file.write('\t\t')
 
 #MIH: if not new or after trained, it now predicts using the network
-NetworkRPredict(directory)
+NetworkRPredict(directory) #testing

@@ -54,9 +54,16 @@ def FitRNetwork(dir):
     df_test, df_train = Normalize_all()
     df_train = df_train.sample(frac=1) #Mix sample so not all EM or Had are together.
 
-    target = (df_train['cluster_ENG_CALIB_TOT'].to_numpy())
+    # OG (MIH)
+   # target = (df_train['cluster_ENG_CALIB_TOT'].to_numpy()) 
+
+    #attempt to solve step 3 (MIH)
+    target = [ df_train['cluster_ENG_CALIB_TOT'].to_numpy(), df_train['cluster_SIGNIFICANCE'].values, df_train['cluster_SECOND_TIME'].values ] 
+
 
     df_train.drop(['cluster_ENG_CALIB_TOT'],axis = 1 , inplace = True)
+    df_train.drop(['cluster_SIGNIFICANCE'],axis = 1 , inplace = True)
+    df_train.drop(['cluster_SECOND_TIME'],axis = 1 , inplace = True)
 
 
 #################################################################################################################################
@@ -98,9 +105,11 @@ def NetworkRPredict(dir):
     df_train = df2
 
 
-    target = df_train['cluster_ENG_CALIB_TOT']
+    #attempt for step3
+    target = [ df_train['cluster_ENG_CALIB_TOT'].to_numpy(), df_train['cluster_SIGNIFICANCE'].values, df_train['cluster_SECOND_TIME'].values ] 
     df_train.drop(['cluster_ENG_CALIB_TOT'],axis = 1 , inplace = True)
-
+    df_train.drop(['cluster_SIGNIFICANCE'],axis = 1 , inplace = True)
+    df_train.drop(['cluster_SECOND_TIME'],axis = 1 , inplace = True)
 
     #############################################################################################################################
     ##Build the Network
@@ -133,10 +142,10 @@ def NetworkRPredict(dir):
     # plt.show()
     plt.savefig(dir + "/figures")
 
-
-
-    df_train['cluster_ENG_CALIB_TOT'] = target
-    df1, df2 = split()
+    #attempt to solve step 3
+    df_train['cluster_ENG_CALIB_TOT'] = target[0]
+    df_train['cluster_SIGNIFICANCE'] = target[1]
+    df_train['cluster_SECOND_TIME'] = target[2]
 
     df2['CalibratedE'] = predictions
     write_csv_file(df2, dir)

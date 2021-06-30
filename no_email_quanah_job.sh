@@ -5,8 +5,6 @@
 #SBATCH --partition quanah
 #SBATCH --nodes=4
 #SBATCH --ntasks-per-node=5
-#SBATCH --mail-user=<madison.howard@ttu.edu>
-#SBATCH --mail-type=ALL
 
 # actual code to execute
 ./run.sh "step3_trial1"

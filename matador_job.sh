@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=cluster_sig_5.0_epoch_100
+#SBATCH --job-name=step3_trial1
 #SBATCH --output=quanah_log/%x.o%j
 #SBATCH --error=quanah_log/%x.e%j
 #SBATCH --partition matador
@@ -10,5 +10,5 @@
 #SBATCH --mail-type=ALL
 
 # actual code to execute
-./run.sh
+./run.sh "step3_trial1"
 
