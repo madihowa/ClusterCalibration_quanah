@@ -41,59 +41,69 @@ debug_NN_predict = True
 debug_NN_input = False
 
 
-
-
 def FitRNetwork(dir):
     """
     Inputs: dir->string: the new Run folder created
     Outputs: 
     Summary:
     """
-    tensorboard_callbacks = TensorBoard(log_dir=dir+"/logs", histogram_freq=1)
+    tensorboard_callbacks = TensorBoard(log_dir=dir + "/logs",
+                                        histogram_freq=1)
 
     df_test, df_train = Normalize_all()
-    df_train = df_train.sample(frac=1) #Mix sample so not all EM or Had are together.
+    df_train = df_train.sample(
+        frac=1)  #Mix sample so not all EM or Had are together.
 
     # OG (MIH)
-   # target = (df_train['cluster_ENG_CALIB_TOT'].to_numpy()) 
+    # target = (df_train['cluster_ENG_CALIB_TOT'].to_numpy())
 
     #attempt to solve step 3 (MIH)
-    target = [ df_train['cluster_ENG_CALIB_TOT'].to_numpy(), df_train['cluster_SIGNIFICANCE'].values, df_train['cluster_SECOND_TIME'].values ] 
+    target = [
+        df_train['cluster_ENG_CALIB_TOT'].to_numpy(),
+        df_train['cluster_SIGNIFICANCE'].values,
+        df_train['cluster_SECOND_TIME'].values
+    ]
 
+    df_train.drop(['cluster_ENG_CALIB_TOT'], axis=1, inplace=True)
+    df_train.drop(['cluster_SIGNIFICANCE'], axis=1, inplace=True)
+    df_train.drop(['cluster_SECOND_TIME'], axis=1, inplace=True)
 
-    df_train.drop(['cluster_ENG_CALIB_TOT'],axis = 1 , inplace = True)
-    df_train.drop(['cluster_SIGNIFICANCE'],axis = 1 , inplace = True)
-    df_train.drop(['cluster_SECOND_TIME'],axis = 1 , inplace = True)
-
-
-#################################################################################################################################
-##Cut data down to right observables
-##
-#################################################################################################################################
-    list_input = ReadInputVaribles() #returns currently used observables
+    #################################################################################################################################
+    ##Cut data down to right observables
+    ##
+    #################################################################################################################################
+    list_input = ReadInputVaribles()  #returns currently used observables
     df_train = df_train[list_input]
     df_test = df_test[list_input]
 
     if debug_NN_input:
         for col in df_train.columns:
-            print(col, end = ': ')
+            print(col, end=': ')
             print(df_test.iloc[0][col])
-
-
 
     NN_model = Make_network(df_train.shape[1])
 
-
-    checkpoint_name = dir+'/Weights-{epoch:03d}--{val_loss:.5f}.hdf5'
-    checkpoint = ModelCheckpoint(checkpoint_name, monitor='val_loss', verbose = 1, save_best_only = True, mode ='auto')
+    checkpoint_name = dir + '/Weights-{epoch:03d}--{val_loss:.5f}.hdf5'
+    checkpoint = ModelCheckpoint(checkpoint_name,
+                                 monitor='val_loss',
+                                 verbose=1,
+                                 save_best_only=True,
+                                 mode='auto')
     # lr_schedule = keras.callbacks.LearningRateScheduler(learning_schedule)
     callbacks_list = [checkpoint, tensorboard_callbacks]
 
     #Fit network
-    history_callback = NN_model.fit(x=df_train, y=target, shuffle=True, epochs=100, batch_size=256, validation_split = 0.1, callbacks=callbacks_list)
+    history_callback = NN_model.fit(x=df_train,
+                                    y=target,
+                                    shuffle=True,
+                                    epochs=1,
+                                    batch_size=256,
+                                    validation_split=0.1,
+                                    callbacks=callbacks_list)
     file = open("NetworkHistory.txt", "a")
 
     CSV_Callbacks(history_callback, dir)
+
 
 def NetworkRPredict(dir):
     df1, df2 = Normalize_all()
@@ -104,18 +114,20 @@ def NetworkRPredict(dir):
     df_test = df1.copy(deep='all')
     df_train = df2
 
-
     #attempt for step3
-    target = [ df_train['cluster_ENG_CALIB_TOT'].to_numpy(), df_train['cluster_SIGNIFICANCE'].values, df_train['cluster_SECOND_TIME'].values ] 
-    df_train.drop(['cluster_ENG_CALIB_TOT'],axis = 1 , inplace = True)
-    df_train.drop(['cluster_SIGNIFICANCE'],axis = 1 , inplace = True)
-    df_train.drop(['cluster_SECOND_TIME'],axis = 1 , inplace = True)
+    target = [
+        df_train['cluster_ENG_CALIB_TOT'].to_numpy(),
+        df_train['cluster_SIGNIFICANCE'].values,
+        df_train['cluster_SECOND_TIME'].values
+    ]
+    df_train.drop(['cluster_ENG_CALIB_TOT'], axis=1, inplace=True)
+    df_train.drop(['cluster_SIGNIFICANCE'], axis=1, inplace=True)
+    df_train.drop(['cluster_SECOND_TIME'], axis=1, inplace=True)
 
     #############################################################################################################################
     ##Build the Network
     #############################################################################################################################
     NN_model = Make_network(df_train.shape[1])
-
 
     #############################################################################################################################
     ##Load the best weights from training
@@ -124,9 +136,8 @@ def NetworkRPredict(dir):
     min_loss = None
     pwd = os.getcwd()
 
-
-    wights_file = file # choose the best checkpoint
-    NN_model.load_weights(wights_file) # load it
+    wights_file = file  # choose the best checkpoint
+    NN_model.load_weights(wights_file)  # load it
 
     NN_model = compile_NN(NN_model)
 
@@ -134,13 +145,6 @@ def NetworkRPredict(dir):
     # predictions = np.exp(NN_model.predict(df_test))
     predictions = (NN_model.predict(df_train))
 
-
-
-    #Plot the results
-    plt_result(df_train, predictions, target)
-    #Save Results as CSV file
-    # plt.show()
-    plt.savefig(dir + "/figures")
 
     #attempt to solve step 3
     df_train['cluster_ENG_CALIB_TOT'] = target[0]
@@ -160,18 +164,26 @@ def FitRNetworkStage2(dir):
 
     df = pd.read_csv("mergeFiles/results.csv")
 
-
-
     target = df['cluster_ENG_CALIB_TOT']
 
-    df.drop(['cluster_ENG_CALIB_TOT'],axis = 1 , inplace = True)
+    df.drop(['cluster_ENG_CALIB_TOT'], axis=1, inplace=True)
 
     NN_model = Make_network(df.shape[1])
-    checkpoint_name = dir+'/Weights-{epoch:03d}--{val_loss:.5f}.hdf5'
-    checkpoint = ModelCheckpoint(checkpoint_name, monitor='val_loss', verbose = 1, save_best_only = True, mode ='auto')
+    checkpoint_name = dir + '/Weights-{epoch:03d}--{val_loss:.5f}.hdf5'
+    checkpoint = ModelCheckpoint(checkpoint_name,
+                                 monitor='val_loss',
+                                 verbose=1,
+                                 save_best_only=True,
+                                 mode='auto')
     callbacks_list = [checkpoint]
 
-    history_callback = NN_model.fit(x=df, y=target, shuffle=True, epochs=10, batch_size=128, validation_split = 0.1, callbacks=callbacks_list)
+    history_callback = NN_model.fit(x=df,
+                                    y=target,
+                                    shuffle=True,
+                                    epochs=1,
+                                    batch_size=128,
+                                    validation_split=0.1,
+                                    callbacks=callbacks_list)
     file = open("NetworkHistory.txt", "a")
 
     CSV_Callbacks(history_callback, dir)
@@ -180,16 +192,13 @@ def FitRNetworkStage2(dir):
 def NetworkRPredictStage2(dir):
     df = pd.read_csv("mergeFiles/results.csv")
 
-
     target = df['cluster_ENG_CALIB_TOT']
-    df.drop(['cluster_ENG_CALIB_TOT'],axis = 1 , inplace = True)
-
+    df.drop(['cluster_ENG_CALIB_TOT'], axis=1, inplace=True)
 
     #############################################################################################################################
     ##Build the Network
     #############################################################################################################################
     NN_model = Make_network(df.shape[1])
-
 
     #############################################################################################################################
     ##Load the best weights from training
@@ -198,9 +207,8 @@ def NetworkRPredictStage2(dir):
     min_loss = None
     pwd = os.getcwd()
 
-
-    wights_file = file # choose the best checkpoint
-    NN_model.load_weights(wights_file) # load it
+    wights_file = file  # choose the best checkpoint
+    NN_model.load_weights(wights_file)  # load it
 
     NN_model = compile_NN(NN_model)
 
@@ -208,22 +216,17 @@ def NetworkRPredictStage2(dir):
     # predictions = np.exp(NN_model.predict(df_test))
     predictions = (NN_model.predict(df))
 
-
-
     #Plot the results
     # plt_result(df, predictions, target)
     #Save Results as CSV file
     # plt.show()
     # plt.savefig(dir + "/figures")
 
-
-
     df['cluster_ENG_CALIB_TOT'] = target
     df1, df2 = split()
 
     df1['CalibratedE'] = predictions
     write_csv_file(df1, dir)
-
 
     tmp = NN_model.layers[0].get_weights()
 
@@ -233,13 +236,18 @@ def Make_network(in_shape):
     NN_model = Sequential()
     # NN_model.add(Embedding(input_dim = in_shape, output_dim = 1, trainable=True))
     # NN_model.add(SimpleRNN(256, activation="relu"))
-    NN_model.add(Dense(1024, kernel_initializer='RandomNormal',input_dim = in_shape, activation="relu"))
+    NN_model.add(
+        Dense(1024,
+              kernel_initializer='RandomNormal',
+              input_dim=in_shape,
+              activation="relu"))
     # NN_model.add(Dense(2, kernel_initializer='RandomNormal', activation="relu"))
     # NN_model.add(Dense(2, kernel_initializer='RandomNormal', activation="relu"))
     # # NN_model.add(Dense(512, kernel_initializer='RandomNormal', activation="relu"))
     # # NN_model.add(Dense(256, kernel_initializer='RandomNormal', activation="linear"))
     # NN_model.add(Dense(256, kernel_initializer='RandomNormal', activation="linear"))
-    NN_model.add(Dense(1024, kernel_initializer='RandomNormal', activation="relu"))
+    NN_model.add(
+        Dense(1024, kernel_initializer='RandomNormal', activation="relu"))
     # NN_model.add(Dense(1024, kernel_initializer='RandomNormal', activation="relu"))
     # NN_model.add(Dense(256, kernel_initializer='RandomNormal', activation="relu"))
     # NN_model.add(Dense(256, kernel_initializer='RandomNormal', activation="linear"))
@@ -261,34 +269,37 @@ def Make_network(in_shape):
     # NN_model.add(Dense(25, kernel_initializer='RandomNormal', activation='relu'))
     #
 
-
-
     #
     # for i in range(100):
     #     NN_model.add(Dense(512, kernel_initializer='RandomNormal', activation='relu'))
     #     i = i + 1
     # NN_model.add(Dense(1024, kernel_initializer='normal', activation='sigmoid'))
-    NN_model.add(Dense(1, kernel_initializer='RandomNormal',activation=None))
+    NN_model.add(Dense(1, kernel_initializer='RandomNormal', activation=None))
     NN_model = compile_NN(NN_model)
     # NN_model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
     NN_model.summary()
 
-
     return NN_model
 
+
 def learning_schedule(epoch):
-    learning_rate = .001 * math.exp(-epoch/20)
+    learning_rate = .001 * math.exp(-epoch / 20)
 
     tf.summary.scalar('learning rate', data=learning_rate, step=epoch)
     return learning_rate
 
+
 def compile_NN(NN_model):
-    lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(.001, decay_rate=.36, decay_steps=1e5)
+    lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
+        .001, decay_rate=.36, decay_steps=1e5)
     optimizer = tf.keras.optimizers.Adam(learning_rate=lr_schedule)
 
-    NN_model.compile(loss=tf.keras.losses.MeanAbsolutePercentageError(), optimizer=optimizer, metrics=['mse', 'mae', 'mape'])
+    NN_model.compile(loss=tf.keras.losses.MeanAbsolutePercentageError(),
+                     optimizer=optimizer,
+                     metrics=['mse', 'mae', 'mape'])
     # NN_model.compile(loss=tf.keras.losses.MeanSquaredError(), optimizer=optimizer, metrics=['mse', 'mae', 'mape'])
     return NN_model
+
 
 ##This is not something that helped ever. So that is why it is now just a blank function if you want to do it.
 def customActivation(Tensor):
@@ -296,13 +307,14 @@ def customActivation(Tensor):
     # tempTensor = - tf.exp((-100) * (Tensor * Tensor)) + Tensor
     return tempTensor
 
+
 def split():
-    data_test, data_train  = read_csv_file()
+    data_test, data_train = read_csv_file()
 
     # data_test = data_test[data_test['cluster_ENG_CALIB_TOT'] >= .5]
     # data_train = data_train[data_train['cluster_ENG_CALIB_TOT'] >= .5]
     Varibles = ReadInputVaribles()
-    data_test = data_test[data_test['cluster_SIGNIFICANCE'] >= 0. ]
-    data_train = data_train[data_train['cluster_SIGNIFICANCE'] >= 0. ]
+    data_test = data_test[data_test['cluster_SIGNIFICANCE'] >= 0.]
+    data_train = data_train[data_train['cluster_SIGNIFICANCE'] >= 0.]
 
     return data_test, data_train

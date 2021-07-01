@@ -9,7 +9,6 @@ __all__ = ["Normalize_all", "small_set"]
 def Normalize_all():
     from RNN import split
 
-
     df1, df2 = split()
     list_input = ReadInputVaribles()
     # list_input.append("EM_Shower")
@@ -42,7 +41,6 @@ def Normalize_all():
     for col in df_test.columns:
         print(col)
 
-
     # print(df_em.mean())
     # print(df_em.std())
 
@@ -65,9 +63,6 @@ def Normalize_all():
     #      print("Taking Log of lambda")
     # print(df_test[['cluster_FIRST_ENG_DENS', 'cluster_CENTER_LAMBDA']][:10])
 
-
-
-
     df_test_norm = df_test.subtract(df_test.mean())
     df_test_norm = df_test_norm.divide(df_test.std())
     # df_test_norm = df_test.subtract(0)
@@ -86,6 +81,11 @@ def Normalize_all():
     df_train_norm['cluster_ENG_CALIB_TOT'] = df2['cluster_ENG_CALIB_TOT']
     df_test_norm['cluster_ENG_CALIB_TOT'] = df1['cluster_ENG_CALIB_TOT']
 
+    #added by MIH to resolve step3
+    df_train_norm['cluster_SIGNIFICANCE'] = df2['cluster_SIGNIFICANCE']
+    df_test_norm['cluster_SIGNIFICANCE'] = df1['cluster_SIGNIFICANCE']
+    df_train_norm['cluster_SECOND_TIME'] = df2['cluster_SECOND_TIME']
+    df_test_norm['cluster_SECOND_TIME'] = df1['cluster_SECOND_TIME']
     #
     # df_test_norm['EM_Shower'] = df1['EM_Shower']
     # df_test_norm['cluster_EM_PROBABILITY'] = df1['cluster_EM_PROBABILITY']
@@ -105,6 +105,7 @@ def Normalize_all():
     print("The std of the training is \n", df_train.std())
 
     return df_test_norm, df_train_norm
+
 
 # Normalize_all()
 
