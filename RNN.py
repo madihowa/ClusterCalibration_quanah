@@ -58,16 +58,9 @@ def FitRNetwork(dir):
     # target = (df_train['cluster_ENG_CALIB_TOT'].to_numpy())
 
     #attempt to solve step 3 (MIH)
-    target = [
-        df_train['cluster_ENG_CALIB_TOT'].to_numpy(),
-        df_train['cluster_SIGNIFICANCE'].values,
-        df_train['cluster_SECOND_TIME'].values
-    ]
+    target = df_train['cluster_ENG_CALIB_TOT'].to_numpy(),
 
     df_train.drop(['cluster_ENG_CALIB_TOT'], axis=1, inplace=True)
-    df_train.drop(['cluster_SIGNIFICANCE'], axis=1, inplace=True)
-    df_train.drop(['cluster_SECOND_TIME'], axis=1, inplace=True)
-
     #################################################################################################################################
     ##Cut data down to right observables
     ##
@@ -99,6 +92,7 @@ def FitRNetwork(dir):
                                     epochs=1,
                                     batch_size=256,
                                     validation_split=0.1,
+                                    workers = 2,
                                     callbacks=callbacks_list)
     file = open("NetworkHistory.txt", "a")
 
@@ -115,14 +109,9 @@ def NetworkRPredict(dir):
     df_train = df2
 
     #attempt for step3
-    target = [
-        df_train['cluster_ENG_CALIB_TOT'].to_numpy(),
-        df_train['cluster_SIGNIFICANCE'].values,
-        df_train['cluster_SECOND_TIME'].values
-    ]
+    target = df_train['cluster_ENG_CALIB_TOT'].to_numpy(),
+
     df_train.drop(['cluster_ENG_CALIB_TOT'], axis=1, inplace=True)
-    df_train.drop(['cluster_SIGNIFICANCE'], axis=1, inplace=True)
-    df_train.drop(['cluster_SECOND_TIME'], axis=1, inplace=True)
 
     #############################################################################################################################
     ##Build the Network
@@ -145,11 +134,8 @@ def NetworkRPredict(dir):
     # predictions = np.exp(NN_model.predict(df_test))
     predictions = (NN_model.predict(df_train))
 
-
     #attempt to solve step 3
-    df_train['cluster_ENG_CALIB_TOT'] = target[0]
-    df_train['cluster_SIGNIFICANCE'] = target[1]
-    df_train['cluster_SECOND_TIME'] = target[2]
+    df_train['cluster_ENG_CALIB_TOT'] = target
 
     df2['CalibratedE'] = predictions
     write_csv_file(df2, dir)

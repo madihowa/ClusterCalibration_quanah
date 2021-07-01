@@ -60,8 +60,7 @@ def read_test():
     PATH_train, PATH_test = find_path(".csv")
     drop_columns = [
         'truthPt', 'truthEta', 'truthPDG', 'cluster_ENG_CALIB_TOT',
-        'cluster_ENG_CALIB_OUT_T', 'cluster_ENG_CALIB_DEAD_TOT',
-        'cluster_SIGNIFICANCE', 'cluster_SECOND_TIME'
+        'cluster_ENG_CALIB_OUT_T', 'cluster_ENG_CALIB_DEAD_TOT'
     ]
     full_test = pd.read_csv(PATH_test, sep=',')
     full_test = full_test.drop(columns=drop_columns)

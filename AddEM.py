@@ -7,9 +7,7 @@ from DNN import Make_network, compile_NN
 os.chdir("../")
 
 
-
 def AddEM():
-
 
     test, train = read_csv_file()
 

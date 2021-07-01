@@ -81,11 +81,6 @@ def Normalize_all():
     df_train_norm['cluster_ENG_CALIB_TOT'] = df2['cluster_ENG_CALIB_TOT']
     df_test_norm['cluster_ENG_CALIB_TOT'] = df1['cluster_ENG_CALIB_TOT']
 
-    #added by MIH to resolve step3
-    df_train_norm['cluster_SIGNIFICANCE'] = df2['cluster_SIGNIFICANCE']
-    df_test_norm['cluster_SIGNIFICANCE'] = df1['cluster_SIGNIFICANCE']
-    df_train_norm['cluster_SECOND_TIME'] = df2['cluster_SECOND_TIME']
-    df_test_norm['cluster_SECOND_TIME'] = df1['cluster_SECOND_TIME']
     #
     # df_test_norm['EM_Shower'] = df1['EM_Shower']
     # df_test_norm['cluster_EM_PROBABILITY'] = df1['cluster_EM_PROBABILITY']

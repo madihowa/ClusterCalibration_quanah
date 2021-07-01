@@ -5,6 +5,8 @@
     -[] added columns for SIGN and SECOND in merged.py in MergeCal() method
     -[] added columns for SIGN and SECOND in CSV_read_write.py in readTest() method
 -[] need to change PlotHisto.C to include plots for SIGN and SECOND
+-[] read the paper by Nathan -> list inputs is the way to go
+-[] added worker param to .fit method to multithread
 
 # Changes Made by SAS (06/18/21)
 

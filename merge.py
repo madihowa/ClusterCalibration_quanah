@@ -38,8 +38,6 @@ def mergeCal(dir="mergeFiles"):
         df_temp = pd.read_csv(file, sep=',')
         df["E_" + name] = df_temp['CalibratedE']
     df['cluster_ENG_CALIB_TOT'] = df_temp['cluster_ENG_CALIB_TOT']
-    df['cluster_SIGNIFICANCE'] = df_temp['cluster_SECOND_TIME']
-    df['cluster_SECOND_TIME'] = df_temp['cluster_SECOND_TIME']
     df.to_csv("results.csv", header=True, index=False)
 
 
