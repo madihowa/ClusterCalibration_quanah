@@ -58,7 +58,7 @@ def FitRNetwork(dir):
     # target = (df_train['cluster_ENG_CALIB_TOT'].to_numpy())
 
     #attempt to solve step 3 (MIH)
-    target = df_train['cluster_ENG_CALIB_TOT'].to_numpy(),
+    target = (df_train['cluster_ENG_CALIB_TOT'].to_numpy())
 
     df_train.drop(['cluster_ENG_CALIB_TOT'], axis=1, inplace=True)
     #################################################################################################################################
@@ -92,7 +92,7 @@ def FitRNetwork(dir):
                                     epochs=1,
                                     batch_size=256,
                                     validation_split=0.1,
-                                    workers = 2,
+                                    workers=2,
                                     callbacks=callbacks_list)
     file = open("NetworkHistory.txt", "a")
 
@@ -109,8 +109,7 @@ def NetworkRPredict(dir):
     df_train = df2
 
     #attempt for step3
-    target = df_train['cluster_ENG_CALIB_TOT'].to_numpy(),
-
+    target = df_train['cluster_ENG_CALIB_TOT'].to_numpy()
     df_train.drop(['cluster_ENG_CALIB_TOT'], axis=1, inplace=True)
 
     #############################################################################################################################
@@ -133,8 +132,12 @@ def NetworkRPredict(dir):
     ##Make predictions
     # predictions = np.exp(NN_model.predict(df_test))
     predictions = (NN_model.predict(df_train))
+    #Plot the results
+    plt_result(df_train, predictions, target)
+    #Save Results as CSV file
+    # plt.show()
+    plt.savefig(dir + "/figures")
 
-    #attempt to solve step 3
     df_train['cluster_ENG_CALIB_TOT'] = target
 
     df2['CalibratedE'] = predictions
