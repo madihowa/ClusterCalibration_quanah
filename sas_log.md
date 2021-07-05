@@ -1,3 +1,16 @@
+# Notes SAS (06/30/21)
+-[] test and train data must be in EMDataSets dir as well
+-[] assuming that cluster_TOTAL_E was training did same style for both
+    -[] added columns for SIGN and SECOND in Normalize.py in Normalize_All() method
+    -[] added columns for SIGN and SECOND in merged.py in MergeCal() method
+    -[] added columns for SIGN and SECOND in CSV_read_write.py in readTest() method
+-[] need to change PlotHisto.C to include plots for SIGN and SECOND
+-[] read the paper by Nathan -> list inputs is the way to go
+-[] added worker param to .fit method to multithread
+-[] changed plt_result method in Graphics.py
+-[] created TestNetwork.py to test network
+-[] struggled with ROOT on local machine (sas)
+
 # Changes Made by SAS (06/18/21)
 
 - moved all *.e* and *.o* into quanah_logs directory to clean up base directory

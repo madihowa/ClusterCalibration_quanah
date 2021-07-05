@@ -9,7 +9,6 @@ __all__ = ["Normalize_all", "small_set"]
 def Normalize_all():
     from RNN import split
 
-
     df1, df2 = split()
     list_input = ReadInputVaribles()
     # list_input.append("EM_Shower")
@@ -42,7 +41,6 @@ def Normalize_all():
     for col in df_test.columns:
         print(col)
 
-
     # print(df_em.mean())
     # print(df_em.std())
 
@@ -64,9 +62,6 @@ def Normalize_all():
     #      df_train['cluster_CENTER_LAMBDA'] = np.log10(df_train['cluster_CENTER_LAMBDA'])
     #      print("Taking Log of lambda")
     # print(df_test[['cluster_FIRST_ENG_DENS', 'cluster_CENTER_LAMBDA']][:10])
-
-
-
 
     df_test_norm = df_test.subtract(df_test.mean())
     df_test_norm = df_test_norm.divide(df_test.std())
@@ -105,6 +100,7 @@ def Normalize_all():
     print("The std of the training is \n", df_train.std())
 
     return df_test_norm, df_train_norm
+
 
 # Normalize_all()
 

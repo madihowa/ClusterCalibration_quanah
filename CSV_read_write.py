@@ -9,25 +9,26 @@ import time
 from shutil import copyfile
 
 ## List of all the funstions.
-__all__ = ["read_csv_file", "find_path", "get_cols_with_no_nans", "find_min_weights", "get_directory", "CSV_Callbacks", "write_csv_file", "ReadInputVaribles", "read_test"]
+__all__ = [
+    "read_csv_file", "find_path", "get_cols_with_no_nans", "find_min_weights",
+    "get_directory", "CSV_Callbacks", "write_csv_file", "ReadInputVaribles",
+    "read_test"
+]
 
 debug_read = False
-
-
-
 
 
 def read_csv_file():
 
     PATH_train, PATH_test = find_path(".csv")
-    pd.set_option('display.max_columns', None) # displays all columns
-    pd.set_option('display.max_rows', None) # displays all rows
+    pd.set_option('display.max_columns', None)  # displays all columns
+    pd.set_option('display.max_rows', None)  # displays all rows
 
     # drop_columns = ['truthPt', 'truthEta', 'truthPDG', 'cluster_ENG_CALIB_TOT', 'cluster_ENG_CALIB_OUT_T', 'cluster_ENG_CALIB_DEAD_TOT']
-    full_train_precut = pd.read_csv(PATH_train, sep = ',')
+    full_train_precut = pd.read_csv(PATH_train, sep=',')
     # full_train = full_train.drop(columns=drop_columns)
     print("Done reading train")
-    full_test_precut = pd.read_csv(PATH_test, sep = ',')
+    full_test_precut = pd.read_csv(PATH_test, sep=',')
     # full_test = full_test.drop(columns=drop_columns)
     print("Done reading test")
     full_train = full_train_precut
@@ -35,8 +36,8 @@ def read_csv_file():
     # full_train = full_train_precut[full_train_precut['cluster_SIGNIFICANCE'] >= 0.]
     # full_test = full_test_precut[full_test_precut['cluster_SIGNIFICANCE'] >= 0.]
 
-        # df2 = df2[df2['cluster_ENG_CALIB_TOT'] >= 10]
-        # df1 = df1[df1['cluster_ENG_CALIB_TOT'] >= 10]
+    # df2 = df2[df2['cluster_ENG_CALIB_TOT'] >= 10]
+    # df1 = df1[df1['cluster_ENG_CALIB_TOT'] >= 10]
     ##add column for use in testing
 
     ##Print column names and length of data if debug is set to true.
@@ -54,14 +55,19 @@ def read_csv_file():
         print("")
     return full_test, full_train
 
+
 def read_test():
     PATH_train, PATH_test = find_path(".csv")
-    drop_columns = ['truthPt', 'truthEta', 'truthPDG', 'cluster_ENG_CALIB_TOT', 'cluster_ENG_CALIB_OUT_T', 'cluster_ENG_CALIB_DEAD_TOT']
-    full_test = pd.read_csv(PATH_test, sep = ',')
+    drop_columns = [
+        'truthPt', 'truthEta', 'truthPDG', 'cluster_ENG_CALIB_TOT',
+        'cluster_ENG_CALIB_OUT_T', 'cluster_ENG_CALIB_DEAD_TOT'
+    ]
+    full_test = pd.read_csv(PATH_test, sep=',')
     full_test = full_test.drop(columns=drop_columns)
     print("Done reading test")
 
     return full_test
+
 
 ##Return the path of the test and train csv files. Note that it finds all CSV files with train and .csv in them and having more then one will cause issues same with test and .csv
 def find_path(str_find):
@@ -82,7 +88,7 @@ def find_path(str_find):
     return file_dir_train, file_dir_test
 
 
-def get_cols_with_no_nans(df,col_type):
+def get_cols_with_no_nans(df, col_type):
     '''
     Arguments :
     df : The dataframe to process
@@ -97,7 +103,7 @@ def get_cols_with_no_nans(df,col_type):
         predictors = df.select_dtypes(include=['object'])
     elif (col_type == 'all'):
         predictors = df
-    else :
+    else:
         print('Error : choose a type (num, no_num, all)')
         return 0
     cols_with_no_nans = []
@@ -109,22 +115,22 @@ def get_cols_with_no_nans(df,col_type):
 
 ##This file returns the set of weights in a specific run that proformed the best. That is if over fitting occurs then it will pick the set before over fitting occurs. However this really never happened to me.
 def find_min_weights(directory):
-        pwd = os.getcwd()
-        min_loss = None
-        for root, dirs, files in os.walk(directory):
-            for file in files:
-                if file.endswith('hdf5'):
-                    splt = file.split('--')
-                    if min_loss == None:
-                            min_loss=float(splt[1][:-5])
-                            min_file = os.path.join(root, file)
-                    elif min_loss > float(splt[1][:-5]):
-                            min_loss = float(splt[1][:-5])
-                            min_file = os.path.join(root, file)
-                    # print(file)
-                    # print(splt[1][:-5])
-                    # print(float(splt[1][:-5]))
-        return min_file
+    pwd = os.getcwd()
+    min_loss = None
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if file.endswith('hdf5'):
+                splt = file.split('--')
+                if min_loss == None:
+                    min_loss = float(splt[1][:-5])
+                    min_file = os.path.join(root, file)
+                elif min_loss > float(splt[1][:-5]):
+                    min_loss = float(splt[1][:-5])
+                    min_file = os.path.join(root, file)
+                # print(file)
+                # print(splt[1][:-5])
+                # print(float(splt[1][:-5]))
+    return min_file
 
 
 def get_directory(day, run):
@@ -152,44 +158,46 @@ def get_directory(day, run):
             for dir in dirs:
                 if day in dir:
                     runs = runs + 1
-        directory = "Results_"+day+"_run_"+str(runs)
+        directory = "Results_" + day + "_run_" + str(runs)
         try:
             os.mkdir(os.path.join(pwd, directory))
         except:
             pass
         print(directory)
-        copyfile("ListInputs.csv", os.path.join(directory,"ListInputs.csv"))
+        copyfile("ListInputs.csv", os.path.join(directory, "ListInputs.csv"))
     else:
-        directory = "Results_"+day+"_run_"+str(run)
+        directory = "Results_" + day + "_run_" + str(run)
         for root, dirs, files in os.walk(pwd):
             for dir in dirs:
                 if directory in dir:
-                    dir_exists=True
+                    dir_exists = True
                     break
         if not dir_exists:
             print("error that run doesn't exist")
             quit()
     return directory
 
+
 def write_csv_file(df, dir, file_name='results.csv'):
-    print("testing the write func:"  + dir)
+    print("testing the write func:" + dir)
     df.to_csv(os.path.join(dir, file_name), header=True, index=False)
     print("CSV file written")
     return
+
 
 def ReadInputVaribles():
     list_input = []
 
     file = 'ListInputs.csv'
 
-
     with open(file) as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter = ',')
-            for row in csv_reader:
-                if '#' in row[0]: continue
-                list_input = list_input + row
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for row in csv_reader:
+            if '#' in row[0]: continue
+            list_input = list_input + row
     print(list_input)
     return list_input
+
 
 def CSV_Callbacks(callbacks, directory):
 
@@ -200,4 +208,6 @@ def CSV_Callbacks(callbacks, directory):
         ##print(title, end==',')
 
     history_df = pd.DataFrame.from_dict(callbacks.history)
-    history_df.to_csv("{}/callback_history.csv".format(directory), index=False) #MIH: the callback_history file gets moved to the right directory
+    history_df.to_csv(
+        "{}/callback_history.csv".format(directory), index=False
+    )  #MIH: the callback_history file gets moved to the right directory
