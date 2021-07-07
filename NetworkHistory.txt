@@ -85,3 +85,17 @@ today	|0	|
 today	|0	|nan	|1
 
 today	|0	|
+today	|0	|
+today	|0	|
+today	|0	|
+today	|0	|
+today	|0	|
+today	|0	|
+today	|0	|0	|-nan
+0	|-nan
+
+today	|0	|
+today	|0	|
+today	|0	|
+today	|0	|
+today	|0	|0.929816	|0.85446

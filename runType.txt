@@ -1,1 +1,5 @@
 step3trial
+step3_trial1
+step3_trial1
+step3_trial_all_loss_functions
+step3_trial_all_loss_functions

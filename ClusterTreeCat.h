@@ -406,6 +406,7 @@ void ClusterTree::Init(TTree *tree)
     fChain->SetBranchAddress("clusterIndex", &clusterIndex, &b_clusterIndex);
     fChain->SetBranchAddress("cluster_nCells", &cluster_nCells, &b_cluster_nCells);
     fChain->SetBranchAddress("cluster_nCells_tot", &cluster_nCells_tot, &b_cluster_nCells_tot);
+    //commented out bc of an error
     fChain->SetBranchAddress("clusterIndex_1", &clusterIndex_1, &b_clusterIndex_1);
     fChain->SetBranchAddress("clusterECalib", &clusterECalib, &b_clusterECalib);
     fChain->SetBranchAddress("clusterPtCalib", &clusterPtCalib, &b_clusterPtCalib);
@@ -459,6 +460,7 @@ void ClusterTree::Init(TTree *tree)
     fChain->SetBranchAddress("cluster_N_BAD_HV_CELLS", &cluster_N_BAD_HV_CELLS, &b_cluster_N_BAD_HV_CELLS);
     fChain->SetBranchAddress("cluster_PTD", &cluster_PTD, &b_cluster_PTD);
     fChain->SetBranchAddress("cluster_MASS", &cluster_MASS, &b_cluster_MASS);
+    //commented out bc of an error
     fChain->SetBranchAddress("EM_Shower", &EM_Shower, &b_EM_Shower);
     fChain->SetBranchAddress("EM_Pro", &EM_Pro, &b_EM_Pro);
     fChain->SetBranchAddress("CalibratedE", &CalibratedE, &b_CalibratedE);

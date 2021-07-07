@@ -51,8 +51,7 @@ def FitRNetwork(dir):
                                         histogram_freq=1)
 
     df_test, df_train = Normalize_all()
-    df_train = df_train.sample(
-        frac=1)  #Mix sample so not all EM or Had are together.
+    df_train = df_train.sample(frac=1)  #Mix sample so not all EM or Had are together.
 
     # OG (MIH)
     # target = (df_train['cluster_ENG_CALIB_TOT'].to_numpy())
@@ -92,7 +91,7 @@ def FitRNetwork(dir):
                                     epochs=1,
                                     batch_size=256,
                                     validation_split=0.1,
-                                    workers=2,
+                                    workers=5,
                                     callbacks=callbacks_list)
     file = open("NetworkHistory.txt", "a")
 
@@ -109,7 +108,7 @@ def NetworkRPredict(dir):
     df_train = df2
 
     #attempt for step3
-    target = df_train['cluster_ENG_CALIB_TOT'].to_numpy()
+    target = df_train['cluster_ENG_CALIB_TOT']
     df_train.drop(['cluster_ENG_CALIB_TOT'], axis=1, inplace=True)
 
     #############################################################################################################################
@@ -133,12 +132,10 @@ def NetworkRPredict(dir):
     # predictions = np.exp(NN_model.predict(df_test))
     predictions = (NN_model.predict(df_train))
     #Plot the results
-    plt_result(df_train, predictions, target)
-    #Save Results as CSV file
-    # plt.show()
-    plt.savefig(dir + "/figures")
+    plt_result(df_train, predictions, target, dir)
 
     df_train['cluster_ENG_CALIB_TOT'] = target
+    df1, df2 = split()
 
     df2['CalibratedE'] = predictions
     write_csv_file(df2, dir)
@@ -285,7 +282,9 @@ def compile_NN(NN_model):
 
     NN_model.compile(loss=tf.keras.losses.MeanAbsolutePercentageError(),
                      optimizer=optimizer,
-                     metrics=['mse', 'mae', 'mape'])
+                     metrics=['mse', 'mae', 'mape', 'msle', 'hinge', 'squared_hinge'])
+    #metrics=['mse', 'mae', 'mape', 'msle', 'binary_accuracy', 'binary_crossentropy', 'categorical_accuracy', 'categorical_crossentropy', 'hinge', 'poisson', 'sparse_categorical_crossentropy', 'sparse_top_k_categorical_accuracy', 'squared_hinge', 'top_k_categorical_accuracy' ])
+
     # NN_model.compile(loss=tf.keras.losses.MeanSquaredError(), optimizer=optimizer, metrics=['mse', 'mae', 'mape'])
     return NN_model
 
