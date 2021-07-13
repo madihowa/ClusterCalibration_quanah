@@ -6,11 +6,12 @@ __all__ = ["Normalize_all", "small_set"]
 
 
 ##This function was used to try many different ways of normalizing the data to try and get better results.
-def Normalize_all():
+def Normalize_all(csv_dir):
     from RNN import split
 
-    df1, df2 = split()
+    df1, df2 = split(csv_dir)
     list_input = ReadInputVaribles()
+    print(list_input)
     # list_input.append("EM_Shower")
 
     # df2 = df2_pre[df2_pre['cluster_ENG_CALIB_TOT'] >= 0]
@@ -102,14 +103,14 @@ def Normalize_all():
     return df_test_norm, df_train_norm
 
 
-# Normalize_all()
+# Normalize_all(csv_dir)
 
 
 ##This makes a data set with only 10 values so that other code could be tested quickly.
-def small_set():
+def small_set(csv_dir):
     from RNN import split
 
-    df_test, df_train = Normalize_all()
+    df_test, df_train = Normalize_all(csv_dir)
     n = 10
     df_test = df_test[:n]
     df_train = df_train[:n]

@@ -9,9 +9,6 @@ import pandas as pd
 import numpy as np
 from Graphics import plt_result
 import warnings
-warnings.filterwarnings('ignore')
-warnings.filterwarnings('ignore', category=DeprecationWarning)
-warnings.simplefilter(action='ignore', category=FutureWarning)
 from xgboost import XGBRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
@@ -22,6 +19,10 @@ from Normalize import *
 import tensorflow as tf
 from tensorflow import keras
 from keras.utils.vis_utils import plot_model
+warnings.filterwarnings('ignore')
+warnings.filterwarnings('ignore', category=DeprecationWarning)
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 try:
     # pydot-ng is a fork of pydot that is better maintained.
     import pydot_ng as pydot
@@ -41,16 +42,15 @@ debug_NN_predict = True
 debug_NN_input = False
 
 
-def FitRNetwork(dir):
+def FitRNetwork(dir,csv_dir):
     """
     Inputs: dir->string: the new Run folder created
     Outputs: 
     Summary:
     """
-    tensorboard_callbacks = TensorBoard(log_dir=dir + "/logs",
-                                        histogram_freq=1)
+    tensorboard_callbacks = TensorBoard(log_dir=dir + "/logs",histogram_freq=1)
 
-    df_test, df_train = Normalize_all()
+    df_test, df_train = Normalize_all(csv_dir)
     df_train = df_train.sample(frac=1)  #Mix sample so not all EM or Had are together.
 
     # OG (MIH)
@@ -76,30 +76,19 @@ def FitRNetwork(dir):
     NN_model = Make_network(df_train.shape[1])
 
     checkpoint_name = dir + '/Weights-{epoch:03d}--{val_loss:.5f}.hdf5'
-    checkpoint = ModelCheckpoint(checkpoint_name,
-                                 monitor='val_loss',
-                                 verbose=1,
-                                 save_best_only=True,
-                                 mode='auto')
+    checkpoint = ModelCheckpoint(checkpoint_name,monitor='val_loss',verbose=1,save_best_only=True,mode='auto')
     # lr_schedule = keras.callbacks.LearningRateScheduler(learning_schedule)
     callbacks_list = [checkpoint, tensorboard_callbacks]
 
     #Fit network
-    history_callback = NN_model.fit(x=df_train,
-                                    y=target,
-                                    shuffle=True,
-                                    epochs=1,
-                                    batch_size=256,
-                                    validation_split=0.1,
-                                    workers=5,
-                                    callbacks=callbacks_list)
+    history_callback = NN_model.fit(x=df_train,y=target,shuffle=True,epochs=1,batch_size=256,validation_split=0.1,workers=5,callbacks=callbacks_list)
     file = open("NetworkHistory.txt", "a")
 
     CSV_Callbacks(history_callback, dir)
+    ###^THIS HAS A SECOND INPUT---MIH
 
-
-def NetworkRPredict(dir):
-    df1, df2 = Normalize_all()
+def NetworkRPredict(dir,csv_dir):
+    df1, df2 = Normalize_all(csv_dir)
 
     if debug_NN_predict == True:
         for col in df1.columns:
@@ -135,7 +124,7 @@ def NetworkRPredict(dir):
     plt_result(df_train, predictions, target, dir)
 
     df_train['cluster_ENG_CALIB_TOT'] = target
-    df1, df2 = split()
+    df1, df2 = split(csv_dir)
 
     df2['CalibratedE'] = predictions
     write_csv_file(df2, dir)
@@ -175,7 +164,7 @@ def FitRNetworkStage2(dir):
     CSV_Callbacks(history_callback, dir)
 
 
-def NetworkRPredictStage2(dir):
+def NetworkRPredictStage2(dir,csv_dir):
     df = pd.read_csv("mergeFiles/results.csv")
 
     target = df['cluster_ENG_CALIB_TOT']
@@ -209,7 +198,7 @@ def NetworkRPredictStage2(dir):
     # plt.savefig(dir + "/figures")
 
     df['cluster_ENG_CALIB_TOT'] = target
-    df1, df2 = split()
+    df1, df2 = split(csv_dir)
 
     df1['CalibratedE'] = predictions
     write_csv_file(df1, dir)
@@ -222,18 +211,13 @@ def Make_network(in_shape):
     NN_model = Sequential()
     # NN_model.add(Embedding(input_dim = in_shape, output_dim = 1, trainable=True))
     # NN_model.add(SimpleRNN(256, activation="relu"))
-    NN_model.add(
-        Dense(1024,
-              kernel_initializer='RandomNormal',
-              input_dim=in_shape,
-              activation="relu"))
+    NN_model.add(Dense(1024, kernel_initializer='RandomNormal',input_dim=in_shape,activation="relu"))
     # NN_model.add(Dense(2, kernel_initializer='RandomNormal', activation="relu"))
     # NN_model.add(Dense(2, kernel_initializer='RandomNormal', activation="relu"))
     # # NN_model.add(Dense(512, kernel_initializer='RandomNormal', activation="relu"))
     # # NN_model.add(Dense(256, kernel_initializer='RandomNormal', activation="linear"))
     # NN_model.add(Dense(256, kernel_initializer='RandomNormal', activation="linear"))
-    NN_model.add(
-        Dense(1024, kernel_initializer='RandomNormal', activation="relu"))
+    NN_model.add(Dense(1024, kernel_initializer='RandomNormal', activation="relu"))
     # NN_model.add(Dense(1024, kernel_initializer='RandomNormal', activation="relu"))
     # NN_model.add(Dense(256, kernel_initializer='RandomNormal', activation="relu"))
     # NN_model.add(Dense(256, kernel_initializer='RandomNormal', activation="linear"))
@@ -296,8 +280,8 @@ def customActivation(Tensor):
     return tempTensor
 
 
-def split():
-    data_test, data_train = read_csv_file()
+def split(csv_dir):
+    data_test, data_train = read_csv_file(csv_dir)
 
     # data_test = data_test[data_test['cluster_ENG_CALIB_TOT'] >= .5]
     # data_train = data_train[data_train['cluster_ENG_CALIB_TOT'] >= .5]

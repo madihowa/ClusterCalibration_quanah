@@ -9,18 +9,14 @@ import time
 from shutil import copyfile
 
 ## List of all the funstions.
-__all__ = [
-    "read_csv_file", "find_path", "get_cols_with_no_nans", "find_min_weights",
-    "get_directory", "CSV_Callbacks", "write_csv_file", "ReadInputVaribles",
-    "read_test"
-]
+__all__ = [ "read_csv_file", "find_path", "get_cols_with_no_nans", "find_min_weights", "get_directory", "CSV_Callbacks", "write_csv_file", "ReadInputVaribles", "read_test"]
 
 debug_read = False
 
 
-def read_csv_file():
+def read_csv_file(csv_dir):
 
-    PATH_train, PATH_test = find_path(".csv")
+    PATH_train, PATH_test = csv_dir+"/train.csv",csv_dir+"/test.csv"
     pd.set_option('display.max_columns', None)  # displays all columns
     pd.set_option('display.max_rows', None)  # displays all rows
 

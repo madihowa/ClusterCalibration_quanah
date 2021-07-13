@@ -14,6 +14,8 @@ args = parser.parse_args()
 run = args.r
 day = args.d
 
+
+csv_dir = "/lustre/work/madihowa/CERN/ClusterCalibration/pi_plus_minus_zero_data"
 #MIH: determines whether the run is new or not
 if run == -1:
     new_run = True
@@ -37,9 +39,9 @@ shutil.copy("RNN.py", directory)
 
 #MIH: if the run is a new run, it trains the network
 if new_run:
-    FitRNetwork(directory)  #training
+    FitRNetwork(directory, csv_dir)  #training
 else:
     file.write('\t\t')
 
 #MIH: if not new or after trained, it now predicts using the network
-NetworkRPredict(directory) #testing
+NetworkRPredict(directory, csv_dir) #testing

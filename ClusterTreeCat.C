@@ -61,7 +61,7 @@ void ClusterTree::Loop()
 
     std::cout << "Current number of Entries: " << fChain->GetEntriesFast() << endl;
 
-    TLeaf* Leaf_Shower = fChain->GetLeaf("EM_Shower");
+   // TLeaf* Leaf_Shower = fChain->GetLeaf("EM_Shower");
 
     if (fChain == 0) return;
     Long64_t r_EM = 0, r_Had = 0;
@@ -77,20 +77,20 @@ void ClusterTree::Loop()
         // std::cout << "Current Value of the EM Shower: " <<EM_Shower << endl;
         // std::cout << "Current Value of the leaf EM Shower " << Leaf_Shower->GetValue(0) << endl;
         Orignal_tree->Fill();
-        std::cout << "EM shower is: "<< EM_Shower << endl;
-        if (EM_Shower >= .8){
-            EM_tree->Fill();
-            n_EM++;
+       // std::cout << "EM shower is: "<< EM_Shower << endl;
+       // if (EM_Shower >= .8){
+       //     EM_tree->Fill();
+       //     n_EM++;
             // std::cout << (EM_Pro) << endl;
-            if (EM_Pro > .5) {r_EM++;}
-        }
-        else if (EM_Shower == 0)
-        {
-            Had_tree->Fill();
-            n_Had++;
-            if (EM_Pro < .5) {r_Had++;}
-        }
-        else std::cout << "Something is still wrong" << endl;
+          //  if (EM_Pro > .5) {r_EM++;}
+       // }
+       // else if (EM_Shower == 0)
+       // {
+       //     Had_tree->Fill();
+       //     n_Had++;
+          //  if (EM_Pro < .5) {r_Had++;}
+       // }
+        //else std::cout << "Something is still wrong" << endl;
         // if (Cut(ientry) < 0) continue;
 
     }

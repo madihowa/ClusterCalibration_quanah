@@ -33,7 +33,7 @@ class ClusterTree {
         Long64_t        clusterIndex;
         Long64_t        cluster_nCells;
         Long64_t        cluster_nCells_tot;
-        Long64_t        clusterIndex_1;
+    //    Long64_t        clusterIndex_1;
         Double_t        clusterECalib;
         Double_t        clusterPtCalib;
         Double_t        clusterEtaCalib;
@@ -86,8 +86,8 @@ class ClusterTree {
         Long64_t        cluster_N_BAD_HV_CELLS;
         Double_t        cluster_PTD;
         Double_t        cluster_MASS;
-        Long64_t        EM_Shower;
-        Double_t        EM_Pro;
+//        Long64_t        EM_Shower;
+//        Double_t        EM_Pro;
         Double_t        CalibratedE;
         Double_t        Delta_E;
         Double_t        Delta_Calib_E;
@@ -105,7 +105,7 @@ class ClusterTree {
         TBranch        *b_clusterIndex;   //!
         TBranch        *b_cluster_nCells;   //!
         TBranch        *b_cluster_nCells_tot;   //!
-        TBranch        *b_clusterIndex_1;   //!
+     //   TBranch        *b_clusterIndex_1;   //!
         TBranch        *b_clusterECalib;   //!
         TBranch        *b_clusterPtCalib;   //!
         TBranch        *b_clusterEtaCalib;   //!
@@ -158,8 +158,8 @@ class ClusterTree {
         TBranch        *b_cluster_N_BAD_HV_CELLS;   //!
         TBranch        *b_cluster_PTD;   //!
         TBranch        *b_cluster_MASS;   //!
-        TBranch        *b_EM_Shower;   //!
-        TBranch        *b_EM_Pro;   //!
+ //       TBranch        *b_EM_Shower;   //!
+ //       TBranch        *b_EM_Pro;   //!
         TBranch        *b_CalibratedE;   //!
         TBranch        *b_Delta_E;   //!
         TBranch        *b_Delta_Calib_E;   //!
@@ -177,7 +177,7 @@ class ClusterTree {
         TBranch        *EM_b_clusterIndex;   //!
         TBranch        *EM_b_cluster_nCells;   //!
         TBranch        *EM_b_cluster_nCells_tot;   //!
-        TBranch        *EM_b_clusterIndex_1;   //!
+  //      TBranch        *EM_b_clusterIndex_1;   //!
         TBranch        *EM_b_clusterECalib;   //!
         TBranch        *EM_b_clusterPtCalib;   //!
         TBranch        *EM_b_clusterEtaCalib;   //!
@@ -230,8 +230,8 @@ class ClusterTree {
         TBranch        *EM_b_cluster_N_BAD_HV_CELLS;   //!
         TBranch        *EM_b_cluster_PTD;   //!
         TBranch        *EM_b_cluster_MASS;   //!
-        TBranch        *EM_b_EM_Shower;   //!
-        TBranch        *EM_b_EM_Pro;   //!
+//        TBranch        *EM_b_EM_Shower;   //!
+//        TBranch        *EM_b_EM_Pro;   //!
         TBranch        *EM_b_CalibratedE;   //!
         TBranch        *EM_b_Delta_E;   //!
         TBranch        *EM_b_Delta_Calib_E;   //!
@@ -249,7 +249,7 @@ class ClusterTree {
         TBranch        *Had_b_clusterIndex;   //!
         TBranch        *Had_b_cluster_nCells;   //!
         TBranch        *Had_b_cluster_nCells_tot;   //!
-        TBranch        *Had_b_clusterIndex_1;   //!
+  //      TBranch        *Had_b_clusterIndex_1;   //!
         TBranch        *Had_b_clusterECalib;   //!
         TBranch        *Had_b_clusterPtCalib;   //!
         TBranch        *Had_b_clusterEtaCalib;   //!
@@ -302,8 +302,8 @@ class ClusterTree {
         TBranch        *Had_b_cluster_N_BAD_HV_CELLS;   //!
         TBranch        *Had_b_cluster_PTD;   //!
         TBranch        *Had_b_cluster_MASS;   //!
-        TBranch        *Had_b_EM_Shower;   //!
-        TBranch        *Had_b_EM_Pro;   //!
+ //       TBranch        *Had_b_EM_Shower;   //!
+ //       TBranch        *Had_b_EM_Pro;   //!
         TBranch        *Had_b_CalibratedE;   //!
         TBranch        *Had_b_Delta_E;   //!
         TBranch        *Had_b_Delta_Calib_E;   //!
@@ -407,7 +407,7 @@ void ClusterTree::Init(TTree *tree)
     fChain->SetBranchAddress("cluster_nCells", &cluster_nCells, &b_cluster_nCells);
     fChain->SetBranchAddress("cluster_nCells_tot", &cluster_nCells_tot, &b_cluster_nCells_tot);
     //commented out bc of an error
-    fChain->SetBranchAddress("clusterIndex_1", &clusterIndex_1, &b_clusterIndex_1);
+    //fChain->SetBranchAddress("clusterIndex_1", &clusterIndex_1, &b_clusterIndex_1);
     fChain->SetBranchAddress("clusterECalib", &clusterECalib, &b_clusterECalib);
     fChain->SetBranchAddress("clusterPtCalib", &clusterPtCalib, &b_clusterPtCalib);
     fChain->SetBranchAddress("clusterEtaCalib", &clusterEtaCalib, &b_clusterEtaCalib);
@@ -461,8 +461,8 @@ void ClusterTree::Init(TTree *tree)
     fChain->SetBranchAddress("cluster_PTD", &cluster_PTD, &b_cluster_PTD);
     fChain->SetBranchAddress("cluster_MASS", &cluster_MASS, &b_cluster_MASS);
     //commented out bc of an error
-    fChain->SetBranchAddress("EM_Shower", &EM_Shower, &b_EM_Shower);
-    fChain->SetBranchAddress("EM_Pro", &EM_Pro, &b_EM_Pro);
+   // fChain->SetBranchAddress("EM_Shower", &EM_Shower, &b_EM_Shower);
+   // fChain->SetBranchAddress("EM_Pro", &EM_Pro, &b_EM_Pro);
     fChain->SetBranchAddress("CalibratedE", &CalibratedE, &b_CalibratedE);
     b_Delta_E = fChain->Branch("Delta_E", &Delta_E, "Delta_E/D");
     b_Delta_Calib_E = fChain->Branch("Delta_Calib_E", &Delta_Calib_E, "Delta_Calib_E/D");
@@ -519,7 +519,7 @@ void ClusterTree::Init_EM(TTree *tree)
     EM_b_clusterIndex = tree->Branch("clusterIndex", &clusterIndex, "clusterIndex/I");
     EM_b_cluster_nCells = tree->Branch("cluster_nCells", &cluster_nCells, "cluster_nCells/I");
     EM_b_cluster_nCells_tot = tree->Branch("cluster_nCells_tot", &cluster_nCells_tot, "cluster_nCells_tot/I");
-    EM_b_clusterIndex_1 = tree->Branch("clusterIndex_1", &clusterIndex_1, "clusterIndex_1/I");
+   // EM_b_clusterIndex_1 = tree->Branch("clusterIndex_1", &clusterIndex_1, "clusterIndex_1/I");
     EM_b_clusterECalib = tree->Branch("clusterECalib", &clusterECalib, "clusterECalib/D");
     EM_b_clusterPtCalib = tree->Branch("clusterPtCalib", &clusterPtCalib, "clusterPtCalib/D");
     EM_b_clusterEtaCalib = tree->Branch("clusterEtaCalib", &clusterEtaCalib, "clusterEtaCalib/D");
@@ -572,8 +572,8 @@ void ClusterTree::Init_EM(TTree *tree)
     EM_b_cluster_N_BAD_HV_CELLS = tree->Branch("cluster_N_BAD_HV_CELLS", &cluster_N_BAD_HV_CELLS, "cluster_N_BAD_HV_CELLS/D");
     EM_b_cluster_PTD = tree->Branch("cluster_PTD", &cluster_PTD, "cluster_PTD/D");
     EM_b_cluster_MASS = tree->Branch("cluster_MASS", &cluster_MASS, "cluster_MASS/D");
-    EM_b_EM_Shower = tree->Branch("EM_Shower", &EM_Shower, "EM_Shower/D");
-    EM_b_EM_Pro = tree->Branch("EM_Pro", &EM_Pro, "EM_Pro/D");
+ //   EM_b_EM_Shower = tree->Branch("EM_Shower", &EM_Shower, "EM_Shower/D");
+  //  EM_b_EM_Pro = tree->Branch("EM_Pro", &EM_Pro, "EM_Pro/D");
     EM_b_CalibratedE = tree->Branch("CalibratedE", &CalibratedE, "CalibratedE/D");
     EM_b_Delta_E = tree->Branch("Delta_E", &Delta_E, "Delta_E/D");
     EM_b_Delta_Calib_E = tree->Branch("Delta_Calib_E", &Delta_Calib_E, "Delta_Calib_E/D");
@@ -635,7 +635,7 @@ void ClusterTree::Init_Had(TTree *tree)
     Had_b_clusterIndex = tree->Branch("clusterIndex", &clusterIndex, "clusterIndex/I");
     Had_b_cluster_nCells = tree->Branch("cluster_nCells", &cluster_nCells, "cluster_nCells/I");
     Had_b_cluster_nCells_tot = tree->Branch("cluster_nCells_tot", &cluster_nCells_tot, "cluster_nCells_tot/I");
-    Had_b_clusterIndex_1 = tree->Branch("clusterIndex_1", &clusterIndex_1, "clusterIndex_1/I");
+   // Had_b_clusterIndex_1 = tree->Branch("clusterIndex_1", &clusterIndex_1, "clusterIndex_1/I");
     Had_b_clusterECalib = tree->Branch("clusterECalib", &clusterECalib, "clusterECalib/D");
     Had_b_clusterPtCalib = tree->Branch("clusterPtCalib", &clusterPtCalib, "clusterPtCalib/D");
     Had_b_clusterEtaCalib = tree->Branch("clusterEtaCalib", &clusterEtaCalib, "clusterEtaCalib/D");
@@ -688,8 +688,8 @@ void ClusterTree::Init_Had(TTree *tree)
     Had_b_cluster_N_BAD_HV_CELLS = tree->Branch("cluster_N_BAD_HV_CELLS", &cluster_N_BAD_HV_CELLS, "cluster_N_BAD_HV_CELLS/D");
     Had_b_cluster_PTD = tree->Branch("cluster_PTD", &cluster_PTD, "cluster_PTD/D");
     Had_b_cluster_MASS = tree->Branch("cluster_MASS", &cluster_MASS, "cluster_MASS/D");
-    Had_b_EM_Shower = tree->Branch("EM_Shower", &EM_Shower, "EM_Shower/D");
-    Had_b_EM_Pro = tree->Branch("EM_Pro", &EM_Pro, "EM_Pro/D");
+ //   Had_b_EM_Shower = tree->Branch("EM_Shower", &EM_Shower, "EM_Shower/D");
+ //   Had_b_EM_Pro = tree->Branch("EM_Pro", &EM_Pro, "EM_Pro/D");
     Had_b_CalibratedE = tree->Branch("CalibratedE", &CalibratedE, "CalibratedE/D");
     Had_b_Delta_E = tree->Branch("Delta_E", &Delta_E, "Delta_E/D");
     Had_b_Delta_Calib_E = tree->Branch("Delta_Calib_E", &Delta_Calib_E, "Delta_Calib_E/D");

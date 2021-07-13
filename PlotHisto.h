@@ -229,7 +229,7 @@ std:cout << "Error something majorly wrong. different number of entries in diffe
 
     return h_ratio_old;
 }
-
+/*
 void Plot_TH1D(TLeaf *l1, TLeaf *l2, Bounds *b){
 
     gStyle->SetOptStat(0);
@@ -247,8 +247,8 @@ void Plot_TH1D(TLeaf *l1, TLeaf *l2, Bounds *b){
     TTree *t1 = l1->GetBranch()->GetTree();
     TTree *t2 = l2->GetBranch()->GetTree();
 
-    TLeaf *Pro1 = t1->GetBranch("EM_Pro")->GetLeaf("EM_Pro");
-    TLeaf *Pro2 = t2->GetBranch("EM_Pro")->GetLeaf("EM_Pro");
+  //  TLeaf *Pro1 = t1->GetBranch("EM_Pro")->GetLeaf("EM_Pro");
+  //  TLeaf *Pro2 = t2->GetBranch("EM_Pro")->GetLeaf("EM_Pro");
 
     Double_t sum_probabilities1 = sum(Pro1);
     Double_t sum_probabilities2 = sum(Pro2);
@@ -298,7 +298,7 @@ void Plot_TH1D(TLeaf *l1, TLeaf *l2, Bounds *b){
 
 
 }
-
+*/
 void Plot_Calib(TLeaf *First, TLeaf *Second){
     gStyle->SetOptStat(0);
     AtlasStyle();
@@ -806,14 +806,14 @@ TitleAxis * GetTit(const char* branch_name){
         tit = "Cluster mass using only E>0";
         name = "Mass";
     }
-    else if (!strcmp(branch_name, "EM_Shower")){
+    /*else if (!strcmp(branch_name, "EM_Shower")){
         tit = "EM shower";
         name = "EMShower";
     }
     else if (!strcmp(branch_name, "EM_Pro")){
         tit = "Probability of shower being EM";
         name = "EMProNetwork";
-    }
+    }*/
     else if (!strcmp(branch_name, "CalibratedE")){
         tit = "Calibrated energy by network [GeV]";
         name = "NetworkCalibE";
