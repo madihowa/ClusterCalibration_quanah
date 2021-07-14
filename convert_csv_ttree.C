@@ -4,7 +4,6 @@
 // #include "RDF.h"
 #include <string>
 #include <fstream>
-
 #include <cstdio>
 
 void convert(const std::string& fileName="NONE",const std::string& outFile="NONE") {

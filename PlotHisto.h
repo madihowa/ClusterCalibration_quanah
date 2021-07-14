@@ -5,7 +5,6 @@
 #endif
 #include "AtlasStyle.h"
 #include "AtlasStyle.C"
-
 #include <TROOT.h>
 #include <TChain.h>
 #include <TFile.h>
@@ -21,8 +20,6 @@ class Bounds
         Double_t minY;
         const char *TitleX;
         const char *TitleY;
-
-
 
 };
 class TitleAxis{
@@ -46,14 +43,9 @@ void Plot_Energy(TTree *t);
 TitleAxis * GetTit(const char* branch_name);
 TH2D * Plot_performance_Old(TTree *t, Int_t switch_name);
 
-
-
-
 TH2D * Plot_performance(TTree *t, Int_t switch_name){
 
     // TFile *f1 = new TFile("FinalResults.root");
-
-
 
     gStyle->SetOptStat(0);
     AtlasStyle();
@@ -69,9 +61,6 @@ TH2D * Plot_performance(TTree *t, Int_t switch_name){
     // TLeaf *l_true = t->GetLeaf("cluster_ENG_CALIB_TOT");
     TLeaf *l_true = t->GetLeaf("cluster_ENG_CALIB_TOT");
     TLeaf *l_calib = t->GetLeaf("CalibratedE");
-
-
-
 
     Int_t n1 = l_true->GetBranch()->GetEntries();
     Int_t n2 = l_calib->GetBranch()->GetEntries();
@@ -102,7 +91,6 @@ std:cout << "Error something majorly wrong. different number of entries in diffe
         // yWidth[i] = MinY + i*(MaxY - MinY)/n_bins;
     }
     auto h_ratio = new TH2D("h_ratio", "performance", n_bins, LogWidth, n_bins, yWidth);
-
 
     for (Int_t i = 0; i < n_entries; i++){
         t->GetEntry(i);
@@ -146,8 +134,6 @@ TH2D * Plot_performance_Old(TTree *t, Int_t switch_name){
 
     // TFile *f1 = new TFile("FinalResults.root");
 
-
-
     gStyle->SetOptStat(0);
     AtlasStyle();
     SetAtlasStyle();
@@ -160,9 +146,6 @@ TH2D * Plot_performance_Old(TTree *t, Int_t switch_name){
     t->SetBranchAddress("Ratio_old", &Ratio_old, &b_Ratio_Old);
     TLeaf *l_true = t->GetLeaf("cluster_ENG_CALIB_TOT");
     TLeaf *l_calib = t->GetLeaf("clusterECalib");
-
-
-
 
     Int_t n1 = l_true->GetBranch()->GetEntries();
     Int_t n2 = l_calib->GetBranch()->GetEntries();
@@ -222,10 +205,6 @@ std:cout << "Error something majorly wrong. different number of entries in diffe
     if (switch_name == 2){
         myText(.55, .85, 1, "#pi^{#pm} clusters");
         c_Ratio->Print("LCWHADperformance.png");}
-
-
-
-
 
     return h_ratio_old;
 }
@@ -338,7 +317,6 @@ void Plot_Calib(TLeaf *First, TLeaf *Second){
     h1->SetLineColor(color_h1);
     h2->SetLineColor(color_h2);
 
-
     h1->Draw("HIST same");
     h2->Draw("HIST same");
     // myText(       0.57, 0.90, 1, "Shower Probability");
@@ -354,7 +332,6 @@ TH2D * Plot_TH2D(TLeaf *First, TLeaf *Second, const char *titleX, const char *ti
     AtlasStyle();
     SetAtlasStyle();
     gStyle->SetPadRightMargin(0.16);
-
 
     auto c2 = new TCanvas("c2", "Fit");
 
@@ -377,7 +354,6 @@ TH2D * Plot_TH2D(TLeaf *First, TLeaf *Second, const char *titleX, const char *ti
     // auto h_Mean = new TH1D("h_Mean", "", n_bins, xWidth);
     auto h3 = new TH2D("h3", "EM Probability", n_bins, xWidth, n_bins, yWidth);
     h3->Sumw2();
-
 
     Int_t nentries = First->GetBranch()->GetEntries();
     for (Int_t i =0; i < nentries; i++){
@@ -441,11 +417,7 @@ TGraph * GraphMean(TH2D* h){
 
     return g;
 
-
-
-
 }
-
 
 Double_t sum(TLeaf *l){
 
@@ -496,8 +468,6 @@ void Plot_Energy(TTree *t){
 
     Int_t n_Branch = t->GetListOfLeaves()->GetEntriesFast();
 
-
-
     // TBranch *b_Energy = t->GetLeaf("cluster_ENG_CALIB_TOT");
 
     TitleAxis *tit = new TitleAxis;
@@ -534,8 +504,6 @@ void Plot_Energy(TTree *t){
         gPad->Print(PNG_name);
         gPad->Clear();
     }
-
-
 
 }
 
@@ -850,8 +818,6 @@ TitleAxis * GetTit(const char* branch_name){
     return names;
 }
 
-
-
 TGraph * IQR(TH2D * h){
     Double_t ColumnSum = 0, ColumnWeightedSum = 0;
     auto n_BinsX = h->GetNbinsX();
@@ -896,9 +862,6 @@ TGraph * IQR(TH2D * h){
 
         }
 
-
-
-
         // std::stringstream s;
         // // TH2D * TH2Subset(TH2D *h,Int_t binx1, Int_t binx2, Int_t biny1, Int_t biny2){
         // subTH2D = TH2Subset(h, i, i+1, 0, n_BinsY);
@@ -920,15 +883,10 @@ TGraph * IQR(TH2D * h){
         if (Median == 0 || Xaxis->GetBinCenter(i) < .1) n_NAN++;
     }
 
-
-
     TGraph * g = new TGraph(n_BinsX-n_NAN, &ArrX[n_NAN], &ArrY[n_NAN]);
 
     g->SetLineColor(2);
 
     return g;
-
-
-
 
     }

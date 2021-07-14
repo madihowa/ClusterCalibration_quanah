@@ -90,8 +90,14 @@ class ClusterTree {
         Double_t        CalibratedE;
         Double_t        Delta_E;
         Double_t        Delta_Calib_E;
-
-
+        // this goes where the other variables are declared
+        Double_t        cluster_SECOND_TIME;
+        Double_t        cluster_fracECalib;
+        Double_t        cluster_fracECalib_ref;
+        Double_t        cluster_fracE;
+        Double_t        cluster_fracE_ref;
+        
+        
         // List of branches
         TBranch        *b_runNumber;   //!
         TBranch        *b_eventNumber;   //!
@@ -161,7 +167,12 @@ class ClusterTree {
         TBranch        *b_CalibratedE;   //!
         TBranch        *b_Delta_E;   //!
         TBranch        *b_Delta_Calib_E;   //!
-
+        // this goes where the branches are declared
+        TBranch        *b_cluster_SECOND_TIME; //!
+        TBranch        *b_cluster_fracECalib; //!
+        TBranch        *b_cluster_fracECalib_ref; //!
+        TBranch        *b_cluster_fracE; //!
+        TBranch        *b_cluster_fracE_ref; //!
 
         // List of branches
         TBranch        *EM_b_runNumber;   //!
@@ -232,7 +243,11 @@ class ClusterTree {
         TBranch        *EM_b_CalibratedE;   //!
         TBranch        *EM_b_Delta_E;   //!
         TBranch        *EM_b_Delta_Calib_E;   //!
-
+        TBranch        *EM_b_cluster_SECOND_TIME; //!
+        TBranch        *EM_b_cluster_fracECalib; //!
+        TBranch        *EM_b_cluster_fracECalib_ref; //!
+        TBranch        *EM_b_cluster_fracE; //!
+        TBranch        *EM_b_cluster_fracE_ref; //!
 
         // List of branches
         TBranch        *Had_b_runNumber;   //!
@@ -303,6 +318,11 @@ class ClusterTree {
         TBranch        *Had_b_CalibratedE;   //!
         TBranch        *Had_b_Delta_E;   //!
         TBranch        *Had_b_Delta_Calib_E;   //!
+        TBranch        *Had_b_cluster_SECOND_TIME; //!
+        TBranch        *Had_b_cluster_fracECalib; //!
+        TBranch        *Had_b_cluster_fracECalib_ref; //!
+        TBranch        *Had_b_cluster_fracE; //!
+        TBranch        *Had_b_cluster_fracE_ref; //!
 
         ClusterTree(TTree *tree=0);
         virtual ~ClusterTree();
@@ -462,6 +482,13 @@ void ClusterTree::Init(TTree *tree)
     b_Delta_Calib_E = fChain->Branch("Delta_Calib_E", &Delta_Calib_E, "Delta_Calib_E/D");
     fChain->SetBranchAddress("Delta_E", &Delta_E, &b_Delta_E);
     fChain->SetBranchAddress("Delta_Calib_E", &Delta_Calib_E, &b_Delta_Calib_E);
+    // this needs to be added to Init(tree)
+    fChain->SetBranchAddress("cluster_SECOND_TIME",&cluster_SECOND_TIME,&b_cluster_SECOND_TIME);
+    fChain->SetBranchAddress("cluster_fracECalib",&cluster_fracECalib,&b_cluster_fracECalib);
+    fChain->SetBranchAddress("cluster_fracECalib_ref",&cluster_fracECalib_ref,&b_cluster_fracECalib_ref);
+    fChain->SetBranchAddress("cluster_fracE_ref",&cluster_fracE_ref,&b_cluster_fracE_ref);
+    fChain->SetBranchAddress("cluster_fracE",&cluster_fracE,&b_cluster_fracE);
+
 
     Notify();
 }
@@ -570,8 +597,12 @@ void ClusterTree::Init_EM(TTree *tree)
     EM_b_CalibratedE = tree->Branch("CalibratedE", &CalibratedE, "CalibratedE/D");
     EM_b_Delta_E = tree->Branch("Delta_E", &Delta_E, "Delta_E/D");
     EM_b_Delta_Calib_E = tree->Branch("Delta_Calib_E", &Delta_Calib_E, "Delta_Calib_E/D");
-
-
+    // in Init_EM(...)
+    EM_b_cluster_SECOND_TIME = tree->Branch("cluster_SECOND_TIME",&cluster_SECOND_TIME,"cluster_SECOND_TIME/D");
+    EM_b_cluster_fracECalib = tree->Branch("cluster_fracECalib",&cluster_fracECalib,"cluster_fracECalib/D");
+    EM_b_cluster_fracECalib_ref = tree->Branch("cluster_fracECalib_ref",&cluster_fracECalib_ref,"cluster_fracECalib_ref/D");
+    EM_b_cluster_fracE = tree->Branch("cluster_fracE",&cluster_fracE,"cluster_fracE/D");
+    EM_b_cluster_fracE_ref = tree->Branch("cluster_fracE_ref",&cluster_fracE_ref,"cluster_fracE_ref/D");
 
 
 
@@ -685,8 +716,12 @@ void ClusterTree::Init_Had(TTree *tree)
     Had_b_CalibratedE = tree->Branch("CalibratedE", &CalibratedE, "CalibratedE/D");
     Had_b_Delta_E = tree->Branch("Delta_E", &Delta_E, "Delta_E/D");
     Had_b_Delta_Calib_E = tree->Branch("Delta_Calib_E", &Delta_Calib_E, "Delta_Calib_E/D");
-
-
+    // in Init_Had(...)
+    Had_b_cluster_SECOND_TIME = tree->Branch("cluster_SECOND_TIME",&cluster_SECOND_TIME,"cluster_SECOND_TIME/D");
+    Had_b_cluster_fracECalib = tree->Branch("cluster_fracECalib",&cluster_fracECalib,"cluster_fracECalib/D");
+    Had_b_cluster_fracECalib_ref = tree->Branch("cluster_fracECalib_ref",&cluster_fracECalib_ref,"cluster_fracECalib_ref/D");
+    Had_b_cluster_fracE = tree->Branch("cluster_fracE",&cluster_fracE,"cluster_fracE/D");
+    Had_b_cluster_fracE_ref = tree->Branch("cluster_fracE_ref",&cluster_fracE_ref,"cluster_fracE_ref/D");
 
 
 
