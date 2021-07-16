@@ -81,7 +81,7 @@ def FitRNetwork(dir,csv_dir):
     callbacks_list = [checkpoint, tensorboard_callbacks]
 
     #Fit network
-    history_callback = NN_model.fit(x=df_train,y=target,shuffle=True,epochs=1,batch_size=256,validation_split=0.1,workers=5,callbacks=callbacks_list)
+    history_callback = NN_model.fit(x=df_train,y=target,shuffle=True,epochs=100,batch_size=256,validation_split=0.1,workers=5,callbacks=callbacks_list)
     file = open("NetworkHistory.txt", "a")
 
     CSV_Callbacks(history_callback, dir)
@@ -155,7 +155,7 @@ def FitRNetworkStage2(dir):
     history_callback = NN_model.fit(x=df,
                                     y=target,
                                     shuffle=True,
-                                    epochs=1,
+                                    epochs=100,
                                     batch_size=128,
                                     validation_split=0.1,
                                     callbacks=callbacks_list)
@@ -264,7 +264,7 @@ def compile_NN(NN_model):
         .001, decay_rate=.36, decay_steps=1e5)
     optimizer = tf.keras.optimizers.Adam(learning_rate=lr_schedule)
 
-    NN_model.compile(loss=tf.keras.losses.MeanAbsolutePercentageError(),
+    NN_model.compile(loss=tf.keras.losses.MeanAbsoluteError(),
                      optimizer=optimizer,
                      metrics=['mse', 'mae', 'mape', 'msle', 'hinge', 'squared_hinge'])
     #metrics=['mse', 'mae', 'mape', 'msle', 'binary_accuracy', 'binary_crossentropy', 'categorical_accuracy', 'categorical_crossentropy', 'hinge', 'poisson', 'sparse_categorical_crossentropy', 'sparse_top_k_categorical_accuracy', 'squared_hinge', 'top_k_categorical_accuracy' ])

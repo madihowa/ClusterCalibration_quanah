@@ -355,8 +355,8 @@ ClusterTree::ClusterTree(TTree *tree) : fChain(0)
 
     TTree *Had_ptr = new TTree("Had_tree", "Hadron shower Tree");
     TTree *EM_ptr = new TTree("EM_tree", "EM shower Tree");
-    EM_tree = EM_ptr;
-    Had_tree = Had_ptr;
+    TTree* EM_tree = EM_ptr;
+    TTree* Had_tree = Had_ptr;
     Init(tree);
     Init_Had(Had_tree);
     Init_EM(EM_tree);

@@ -639,7 +639,7 @@ void ClusterTree::Init_Had(TTree *tree)
     Had_b_clusterPhi = tree->Branch("clusterPhi", &clusterPhi, "clusterPhi/D");
     Had_b_cluster_sumCellE = tree->Branch("cluster_sumCellE", &cluster_sumCellE, "cluster_sumCellE/D");
     Had_b_cluster_EM_PROBABILITY = tree->Branch("cluster_EM_PROBABILITY", &cluster_EM_PROBABILITY, "cluster_EM_PROBABILITY/D");
-    Had_b_cluster_HAD_WEIGHT = tree->Branch("Blacluster_HAD_WEIGHTnk", &cluster_HAD_WEIGHT, "cluster_HAD_WEIGHT/D");
+    Had_b_cluster_HAD_WEIGHT = tree->Branch("cluster_HAD_WEIGHT", &cluster_HAD_WEIGHT, "cluster_HAD_WEIGHT/D");
     Had_b_cluster_OOC_WEIGHT = tree->Branch("cluster_OOC_WEIGHT", &cluster_OOC_WEIGHT, "cluster_OOC_WEIGHT/D");
     Had_b_cluster_DM_WEIGHT = tree->Branch("cluster_DM_WEIGHT", &cluster_DM_WEIGHT, "cluster_DM_WEIGHT/D");
     Had_b_cluster_ENG_CALIB_TOT = tree->Branch("cluster_ENG_CALIB_TOT", &cluster_ENG_CALIB_TOT, "cluster_ENG_CALIB_TOT/D");
