@@ -1,9 +1,9 @@
 import uproot3
 
-base_dir = "pi_zero/pi0"
-csv_name = "pi_zero.csv"
+base_dir = "jetData"
+csv_name = "jets.csv"
 
-events= uproot3.open("{}/topo-cluster.pool.root".format(base_dir))
+events= uproot3.open("{}/jet.topo-cluster.pool.root".format(base_dir))
 
 columns = events["ClusterTree"].keys()
 

@@ -32,17 +32,28 @@ class TitleAxis{
         Bool_t LogX = 0;
 };
 
+//functional prototypes
+
 TH2D * Plot_performance(TTree *t, Int_t switch_name);
+
 void Plot_Calib(TLeaf *First, TLeaf *Second);
-// void Plot_TH2D(TLeaf *First, TLeaf *Second, const char *titleX, const char *titleY, Bounds *bound, Bool_t LogX = "False", Bool_t LogY = "False", Int_t n_bins = 100);
+
 Double_t sum(TLeaf *l);
+
 void Plot_TH1D(TLeaf *l1, TLeaf *l2, Bounds *b);
+
 TH2D * TH2Subset(TH2D *h,Int_t binx1, Int_t binx2, Int_t biny1, Int_t biny2);
+
 TGraph * GraphMean(TH2D* h);
+
 void Plot_Energy(TTree *t);
+
 TitleAxis * GetTit(const char* branch_name);
+
 TH2D * Plot_performance_Old(TTree *t, Int_t switch_name);
 
+
+//functional definitions
 TH2D * Plot_performance(TTree *t, Int_t switch_name){
 
     // TFile *f1 = new TFile("FinalResults.root");
@@ -393,16 +404,20 @@ TGraph * GraphMean(TH2D* h){
     Double_t ArrX[n_BinsX];
     Double_t ArrY[n_BinsX];
     Int_t n_NAN = 1;
+
     for(Int_t i = 1; i <= n_BinsX; i++){
         ColumnSum = 0;
         ColumnWeightedSum = 0;
         for(Int_t j = 0; j < n_BinsY; j++){
             ColumnWeightedSum += Yaxis->GetBinCenter(j) * h->GetBinContent(i, j);
             ColumnSum += h->GetBinContent(i, j);
-            if (ColumnWeightedSum > 10000){std::cout << i << "\t " << j << "\t " << Yaxis->GetBinCenter(j) << "\t " << h->GetBinContent(i, j) << endl;}
+            if (ColumnWeightedSum > 10000)
+                {std::cout << i << "\t " << j << "\t " << Yaxis->GetBinCenter(j) << "\t " << h->GetBinContent(i, j) << endl;}
         }
         // std::cout << i << "\t" << ColumnWeightedSum << "\t" << ColumnSum << endl;
-        if (ColumnSum != 0) ArrY[i] = (Double_t)ColumnWeightedSum / (Double_t)ColumnSum;
+        if (ColumnSum != 0) {
+            ArrY[i] = (Double_t)ColumnWeightedSum / (Double_t)ColumnSum;
+            }
         else {
             ArrY[i] = 0;
             n_NAN = i+1;
@@ -836,8 +851,9 @@ TGraph * IQR(TH2D * h){
     Int_t cnt_t = 0, cnt_c;
     // string const &str;
     // Int_t n_NAN = 0;
-
     Int_t n_NAN = 1;
+
+
     for(Int_t i = 1; i <= n_BinsX; i++){
         cnt_t = 0;
         cnt_c = 0;
@@ -851,6 +867,7 @@ TGraph * IQR(TH2D * h){
         q1 = 0;
         q3 = 0;
         Median = -1;
+
         for (Int_t j = 1; j <= n_BinsY; j++){
             cnt_c += y[j];
             if (cnt_c >= cnt_t/4 && !q1) {q1 = x[j];}

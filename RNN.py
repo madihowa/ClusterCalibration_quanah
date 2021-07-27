@@ -111,15 +111,15 @@ def NetworkRPredict(dir,csv_dir):
     file = find_min_weights(dir)
     min_loss = None
     pwd = os.getcwd()
-
+###MIH look into################
     wights_file = file  # choose the best checkpoint
     NN_model.load_weights(wights_file)  # load it
 
     NN_model = compile_NN(NN_model)
 
     ##Make predictions
-    # predictions = np.exp(NN_model.predict(df_test))
-    predictions = (NN_model.predict(df_train))
+    predictions = np.exp(NN_model.predict(df_test))
+    ###predictions = (NN_model.predict(df_train))
     #Plot the results
     plt_result(df_train, predictions, target, dir)
 

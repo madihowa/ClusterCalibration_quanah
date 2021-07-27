@@ -1,12 +1,12 @@
 #!/bin/bash
-#SBATCH --job-name=oneInput_ERun
+#SBATCH --job-name=initial_inputs2372021
 #SBATCH --output=quanah_log/%x.o%j
 #SBATCH --error=quanah_log/%x.e%j
-#SBATCH --partition quanah
-#SBATCH --nodes=3
-#SBATCH --ntasks-per-node=36
+#SBATCH --partition nocona
+#SBATCH --nodes=4
+#SBATCH --ntasks-per-node=128
 #SBATCH --mem-per-cpu=3994MB
 #SBATCH --mail-user=<madison.howard@ttu.edu>
 #SBATCH --mail-type=ALL
 # actual code to execute
-./run.sh "oneInput_ERun"
+./run.sh "initial_inputs"

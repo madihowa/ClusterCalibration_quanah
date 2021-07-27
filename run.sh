@@ -94,6 +94,7 @@ cd $DIRECTORY
 
 echo $RCONTENT >> runType.txt
 
+module load gcc/10.1.0 root/6.18.04
 root -l ../runT_new.C
 
 cd ..
